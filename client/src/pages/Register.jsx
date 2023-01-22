@@ -1,5 +1,10 @@
+// AXIOS : biblioteka pozwalająca na połączenie się z BACKENDEM (Node.js) i tworzyć zapytania HTTP
+
 import React,{useState} from 'react';
 import {Link} from 'react-router-dom';
+import axios from 'axios';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Register = () => {
 
@@ -23,7 +28,69 @@ const Register = () => {
 
     const submitHandler = (e) =>
     {
-        e.preventDefault();
+        e.preventDefault(); // Anulowanie zdarzenia (e -> event) w przeglądarce.
+
+        // AXIOS: Połączenie z API na endpoint: 'user/register'
+
+        axios
+            .post("http://localhost:5000/api/user/register", // Metoda POST 
+            {...inputs}, // Ddane wejściowe
+            {withCredentials: true}) // Uwzględnianie plików COOKIE
+            .then((res) => // Jeżeli się uda
+            {
+                console.log(res);
+
+                if (!res.data.created)
+                {
+                    if (res.data.error_type === 0)
+                    {
+                        toast.error(res.data.error[0].msg, 
+                        {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                    }
+                    else if (res.data.error_type === 1)
+                    {
+                        toast.error(res.data.message, 
+                        {
+                            position: "top-center",
+                            autoClose: 5000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "colored",
+                        });
+                    }
+                }
+
+                if (res.data.created)
+                {
+                    toast.success(res.data.message, 
+                    {
+                        position: "top-center",
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
+            })
+            .catch((err) => //Jęzeli błąd
+            {
+                console.log(`REQUEST ERROR: ${err}`)
+            });
     }
     
   return (
@@ -87,7 +154,7 @@ const Register = () => {
                 <label className="text-gray-500 mb-2 font-bold" for="password">
                 Hasło
                 </label>
-                <input type="text" 
+                <input type="password" 
                 placeholder="Hasło" 
                 id="password"
                 name="password"
@@ -100,7 +167,7 @@ const Register = () => {
                 <label className="text-gray-500 mb-2 font-bold" for="confirm_password">
                 Potwierdź Hasło
                 </label>
-                <input type="text" 
+                <input type="password"
                 placeholder="Potwierdź Hasło" 
                 id="confirm_password"
                 name="confirm_password"
@@ -116,6 +183,7 @@ const Register = () => {
                 <Link to="/login" className="text-blue-500"><p>Mam już konto</p></Link>
             </div>
         </form>
+        <ToastContainer />
     </div>
   )
 }
