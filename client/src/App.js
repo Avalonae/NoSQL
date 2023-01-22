@@ -11,7 +11,8 @@ import Cart from './pages/Cart';
 
 
 
-function App() {
+function App() 
+{
   return (
     <div className="App" >
       <BrowserRouter>
