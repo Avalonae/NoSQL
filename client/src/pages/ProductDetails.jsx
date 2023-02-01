@@ -8,7 +8,7 @@ const ProductDetails = () => {
   const params = useParams();
   const albumid = params.albumid;
 
-  const { collection, addToCollection, updateCollection } = useContext(GlobalContext);
+  const { collection, addToCollection, updateCollection, LoginStatus} = useContext(GlobalContext);
 
   const [album, setAlbum] = useState([]);
 
@@ -134,10 +134,11 @@ const ProductDetails = () => {
           <h4 className="text-bold text-bold border border-b-slate-200 border-l-0 border-t-0 border-r-0 py-2">
             Koszt/dzień: {album.price_per_day} PLN
           </h4>
-
-          <button className="bg-[#F37703] rounded px-3 py-2 text-white w-full my-4 hover:bg-transparent hover:text-[#F37703] transition duration-300"
+            {LoginStatus ? (<button className="bg-[#F37703] rounded px-3 py-2 text-white w-full my-4 hover:bg-transparent hover:text-[#F37703] transition duration-300"
           onClick={addToCollectionHandler}
-          >Wypożycz</button>
+          >Wypożycz</button>) : (<></>)
+        }
+
 
 
 
