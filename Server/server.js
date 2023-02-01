@@ -40,11 +40,14 @@ app.use("/api/album", albumRouter);
 const port = process.env.PORT || 8080; /* PORT: 5000 lub 8080 (Jeżeli 5000 Nie)*/
 
 connect
-    .then((res) => {
-        app.listen(port, () => {
+    .then((res) => 
+    {
+        app.listen(port, () => 
+        {
             console.log(`Server is running on PORT: ${port}`);
         });
     })
-    .catch((err) => {
+    .catch((err) => 
+    {
         console.log(`ERROR: ${err}`);
     });

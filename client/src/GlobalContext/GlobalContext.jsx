@@ -24,7 +24,7 @@ const Reducer = (state, action) =>
             });
             
 
-        case "UPDATE_COLLECTION_QUANTITY":
+        case "UPDATE_COLLECTION_DURATION":
             return {
             ...state,
             collection: state.collection.filter((album) => {
@@ -34,7 +34,7 @@ const Reducer = (state, action) =>
             }),
             };
 
-        case "INCREASE_QUANTITY":
+        case "INCREASE_DURATION":
                 return {
                     ...state,
                     collection: state.collection.filter((album) => {
@@ -44,7 +44,7 @@ const Reducer = (state, action) =>
                     }),
                 };
 
-        case "DECEASE_QUANTITY":
+        case "DECEASE_DURATION":
             return {
                 ...state,
                 collection: state.collection.filter((album) => 
@@ -82,14 +82,6 @@ export const GlobalContextProvider = ({ children }) =>
         });
     }
 
-    const addToCart = (data) => 
-    {
-        dispatch(
-        {
-            type: "ADD_TO_CART",
-            payload: { data },
-        });
-    };
 
     const addToCollection = (data) => 
     {
@@ -100,39 +92,31 @@ export const GlobalContextProvider = ({ children }) =>
         });
     };
 
-    const updateCart = (id) => 
-    {
-        dispatch(
-        {
-            type: "UPDATE_CART_QUANTITY",
-            payload: id,
-        });
-    };
 
     const updateCollection = (id) => 
     {
         dispatch(
         {
-            type: "UPDATE_COLLECTION_QUANTITY",
+            type: "UPDATE_COLLECTION_DURATION",
             payload: id,
         });
     };
 
-    const increaseQuantity = (id) => 
+    const increaseDuration = (id) => 
     {
         dispatch(
         {
-            type: "INCREASE_QUANTITY",
+            type: "INCREASE_DURATION",
             payload: id,
         });
     };
 
 
-  const decreaseQuantity = (id) => 
+  const decreaseDuration = (id) => 
   {
         dispatch(
         {
-            type: "DECEASE_QUANTITY",
+            type: "DECEASE_DURATION",
             payload: id,
         });
   };
@@ -152,14 +136,11 @@ export const GlobalContextProvider = ({ children }) =>
         {
             IsLoggedIn,
             LoginStatus: state.IsLoggIn,
-            cart: state.cart,
             collection: state.collection,
-            addToCart,
             addToCollection,
-            updateCart,
             updateCollection,
-            increaseQuantity,
-            decreaseQuantity,
+            increaseDuration,
+            decreaseDuration,
             removeItem,
         }}>
     {children}

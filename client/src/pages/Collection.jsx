@@ -4,18 +4,8 @@ import { GlobalContext } from "../GlobalContext/GlobalContext";
 
 const Collection = () => 
 {
-  const { collection, increaseQuantity, decreaseQuantity, removeItem } = useContext(GlobalContext);
+  const { collection, increaseDuration, decreaseDuration, removeItem } = useContext(GlobalContext);
 
-  const changeArray = (arr) =>
-  {
-    let str = "";
-    arr.forEach(el => 
-    {
-        str += String(el) + ", "
-        
-    });
-    return str.substring(0, str.length - 2);
-  }
 
   return (
     <div className="w-full min-h-full flex justify-center">
@@ -52,14 +42,14 @@ const Collection = () =>
 
                     <td className="border border-slate-300 text-center">
                       <button
-                        onClick={() => decreaseQuantity(album.id)}
+                        onClick={() => decreaseDuration(album.id)}
                         className="py-1 px-2 focus:border border-orange-300 mx-2 font-bold text-2xl"
                       >
                         -
                       </button>
                       {album.duration}
                       <button
-                        onClick={() => increaseQuantity(album.id)}
+                        onClick={() => increaseDuration(album.id)}
                         className="py-1 px-2 focus:border border-orange-300 mx-2 font-bold text-2xl"
                       >
                         +
