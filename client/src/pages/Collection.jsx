@@ -5,7 +5,17 @@ import { GlobalContext } from "../GlobalContext/GlobalContext";
 const Collection = () => 
 {
   const { collection, increaseQuantity, decreaseQuantity, removeItem } = useContext(GlobalContext);
-  console.log(collection);
+
+  const changeArray = (arr) =>
+  {
+    let str = "";
+    arr.forEach(el => 
+    {
+        str += String(el) + ", "
+        
+    });
+    return str.substring(0, str.length - 2);
+  }
 
   return (
     <div className="w-full min-h-full flex justify-center">
@@ -16,7 +26,6 @@ const Collection = () =>
             <tr className="bg-[#060606]">
               <th className="border border-slate-700 p-3 text-[#e6e6e6]">Tytuł Albumu</th>
               <th className="border border-slate-700 p-3 text-[#e6e6e6]">Wykonawca</th>
-              <th className="border border-slate-700 p-3 text-[#e6e6e6]">Gatunki Muzyczne</th>
               <th className="border border-slate-700 p-3 text-[#e6e6e6]">Rok produkcji</th>
               <th className="border border-slate-700 p-3 text-[#e6e6e6]">Ilość dni</th>
               <th className="border border-slate-700 p-3 text-[#e6e6e6]">Do zapłaty</th>
@@ -35,9 +44,7 @@ const Collection = () =>
                       {album.artist}
                     </td>
 
-                    <td className="border border-slate-300 text-center">
-                      {album.genres}
-                    </td>
+
 
                     <td className="border border-slate-300 text-center">
                       {album.year}
