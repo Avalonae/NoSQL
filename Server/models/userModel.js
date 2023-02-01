@@ -8,7 +8,8 @@ const userSchema = new Schema(
         lastname: {type: String},
         username: {type: String},
         email: {type: String},
-        password: {type: String}
+        password: {type: String},
+        //albums_borrowed: [{type: String}]
     }
 );
 

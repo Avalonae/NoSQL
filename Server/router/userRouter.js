@@ -10,16 +10,43 @@ const {check, validationResult} = require("express-validator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
+const { json } = require("body-parser");
 
 
 
 // ************************* METODY POST: USER ****************************** 
 /* Pierwszy argument metody POST: 'ENDPOINT do routowania API Usera' -> api/user ... */
 
-router.post("/verify_account", (req, res, next) =>
+router.post("/verify_account", async (req, res, next) => 
 {
+    const { token, username } = req.body;
 
+    jwt.verify(token, process.env.jwt_key, async (err, valid_token) => 
+    {
+      if (err) 
+      {
+        res.json({ status: false , message: `JSON TOKEN ERROR: ${err}`});
+        return;
+      }
+      
+      const id = valid_token.id;
+      const findAccount = await userModel.findById(id);
+
+      if (!findAccount) 
+      {
+        res.json({ status: false , message: `FIND ACCOUNT ERROR!`});
+        return;
+      }
+  
+      res.json(
+        {
+            status: true,
+            username: findAccount.username,
+            email: findAccount.email,
+            _id: id
+        });
     });
+  });
 
 router.post("/login",
     [
@@ -33,7 +60,7 @@ router.post("/login",
         
         if(!error.isEmpty())
         {
-            res.json({error: error.array() });
+            res.json({error: error.array(), error_type: 0});
             return;
         }
 
@@ -41,7 +68,7 @@ router.post("/login",
 
         if(!findOne)
         {
-            res.json({message: "Nieprawidłowa nazwa użytkownika"});
+            res.json({message: "Nieprawidłowa nazwa użytkownika", error_type: 1});
             return;
         }
 
@@ -50,18 +77,18 @@ router.post("/login",
             if (isValid)
             {
                 const id = findOne._id;
-                const token = jwt.sign({id}, process.env.JWT_KEY, {expiresIn: "7d"});
+                const token = jwt.sign({ id }, process.env.jwt_key, {expiresIn: "7d"});
 
                 res
-                    .cookie()
+                    .cookie("jwt_token", token)
                     .status(200)
-                    .send({message: "Zalogowany", token, created: true});
+                    .send({message: "Zalogowany", token, created: true, id});
             }
             else
             {
-                res.json({message: "Nieprawidłowe hasło", created: false});
+                res.json({message: "Nieprawidłowe konto",error_type: 2, created: false});
             }
-        })
+        });
     });
 
 
@@ -139,7 +166,7 @@ router.post("/register",
         user.save().then((doc) => // Zapisywanie użytkownika a następnie zwracanie odpowiedzi o sukcesie żadania (201)
         {
             const id = doc._id;
-            const token = jwt.sign({id}, process.env.JWT_KEY, { expiresIn: "7d" })
+            const token = jwt.sign({id}, process.env.jwt_key, { expiresIn: "7d" });
 
             res
                 .cookie("jwt_token", token)

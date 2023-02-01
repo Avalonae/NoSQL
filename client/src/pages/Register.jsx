@@ -5,8 +5,12 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
+const Register = () => 
+{
+
+    const navigate = useNavigate();
 
     const [inputs, setInputs] = useState(
     {
@@ -34,7 +38,7 @@ const Register = () => {
 
         axios
             .post("http://localhost:5000/api/user/register", // Metoda POST 
-            {...inputs}, // Ddane wejściowe
+            {...inputs}, // Dane wejściowe
             {withCredentials: true}) // Uwzględnianie plików COOKIE
             .then((res) => // Jeżeli się uda
             {
@@ -85,6 +89,8 @@ const Register = () => {
                         progress: undefined,
                         theme: "colored",
                     });
+
+                    navigate("/");
                 }
             })
             .catch((err) => //Jęzeli błąd
@@ -177,7 +183,7 @@ const Register = () => {
             </div>
 
             <div className="flex flex-row justify-between items-center my-3 mb-5">
-                <button className="text-white font-bold bg-blue-500 py-2 px-3 border rounder hover:bg-blue-700">
+                <button className="text-white font-bold bg-blue-500 py-2 px-3 border rounder hover:bg-blue-700 transition duration-300">
                 Zarejestruj się
                 </button>
                 <Link to="/login" className="text-blue-500"><p>Mam już konto</p></Link>

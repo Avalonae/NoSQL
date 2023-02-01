@@ -15,6 +15,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const userRouter = require("./router/userRouter");
+const albumRouter = require("./router/AlbumRouter");
 
 // ============= IMPLEMENTATION CONNECTION ==============
 
@@ -34,6 +35,7 @@ app.use(
     ));
 
 app.use("/api/user", userRouter);
+app.use("/api/album", albumRouter);
 
 const port = process.env.PORT || 8080; /* PORT: 5000 lub 8080 (Jeżeli 5000 Nie)*/
 
@@ -46,18 +48,3 @@ connect
     .catch((err) => {
         console.log(`ERROR: ${err}`);
     });
-
-// ================ METODY HTTP: POST ==================
-
-// app.post("api/verify_account", (req, res, next) => 
-// {
-
-// });
-// app.post("api/login", (req, res, next) => 
-// {
-
-// });
-// app.post("api/register", (req, res, next) => 
-// {
-
-// });
