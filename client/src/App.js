@@ -25,8 +25,6 @@ function App()
   console.log(LoginStatus);
 
   const token = Cookie.get("jwt_token");
-  console.log(token);
-
 
   useEffect(() => 
   {
